@@ -18,15 +18,20 @@ let game = new Phaser.Game(config);
 function preload()
 {
     this.load.image('bg1_small', './assets/bg1_small.png');
+    this.load.image('start_game', './assets/start_game.png');
 }
 
 function create()
 {
     this.add.image(625, 300, 'bg1_small');
-    this.add.text(16, 16, Lexicon.retrieve('startGameText'), { fontSize: '32px', fill: '#FFF' });
+    let startGame = this.add.image(625, 300, 'start_game');
 }
 
 function update()
 {
 
+}
+
+function onStartClick() {
+    console.log('Clicked!');
 }
