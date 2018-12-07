@@ -1,3 +1,18 @@
+/* Force font to be loaded */
+@font-face {
+    font-family: 'Scratch';
+    src: url('scratch_-webfont.woff2') format('woff2'),
+    url('scratch_-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+/* Force font to be loaded */
+#preload-font {
+    font-family: 'Scratch', sans-serif;
+    text-indent: -9999px;
+    font-size: 0;
+}
+
 canvas {
     display: block;
     margin-left: auto;
