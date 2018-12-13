@@ -1,2 +1,2 @@
 # Fish Frenzy Game
-Info coming soon..
+browserify js/main.js --outfile=js/bundle.js --debug
