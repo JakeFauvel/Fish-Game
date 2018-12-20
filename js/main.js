@@ -6,7 +6,7 @@ window.Phaser = require('phaser/build/custom/phaser-split');
 // Custom JS imports
 let GameState = require("./gameState.js");
 let Player = require("./player.js");
-let Lexicon = require("./lexicon.js");
+let Fish = require("./fish.js");
 
 // Game Config
 const screenWidth = 1250;
@@ -17,8 +17,6 @@ let startGameBtn = undefined;
 let scoreText = undefined;
 let score = '0';
 
-let cursors;
-
 let game = new Phaser.Game(screenWidth, screenHeight, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update });
 
 function preload()
@@ -27,6 +25,7 @@ function preload()
     game.load.image('bg1_small', './assets/bg1_small.png');
     game.load.image('start_game', './assets/start_game.png');
     Player.preload(game);
+    Fish.preload(game);
 }
 
 function create()
@@ -41,7 +40,9 @@ function create()
 
     // Player
     let playerLayer = game.add.group();
+    let fishLayer = game.add.group();
     Player.create(playerLayer);
+    Fish.create(fishLayer);
 }
 
 function update()
@@ -51,6 +52,7 @@ function update()
     } else {
         showItem(scoreText);
         Player.show();
+        Fish.show();
         Player.update(game);
     }
 }
