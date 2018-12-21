@@ -55,6 +55,7 @@ function update()
         showItem(scoreText);
         Player.show();
         Player.update(game);
+        Fish.update(game);
     }
 }
 

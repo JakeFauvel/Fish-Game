@@ -20,6 +20,11 @@ let create = function() {
     fishes = game.add.group();
     game.physics.enable(fishes, Phaser.Physics.ARCADE);
     createFishes();
+    fishMovement();
+};
+
+let update = function() {
+    fishMovement();
 };
 
 function createFishes() {
@@ -29,6 +34,10 @@ function createFishes() {
         fish.animations.add('idle');
         fish.animations.play('idle', 15, true);
     }
+}
+
+function fishMovement() {
+    
 }
 
 function getRandomX() {
@@ -42,4 +51,5 @@ function getRandomY() {
 module.exports = {
     preload: preload,
     create: create,
+    update: update,
 };
