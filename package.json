@@ -1,0 +1,25 @@
+{
+  "name": "Fish-Game",
+  "version": "1.0.0",
+  "description": "browserify js/main.js --outfile=js/bundle.js --debug",
+  "main": "index.js",
+  "dependencies": {
+    "browserify": "^16.2.3",
+    "phaser": "^2.6.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "N/A"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JakeFauvel/Fish-Game.git"
+  },
+  "keywords": [],
+  "author": "Jake Fauvel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JakeFauvel/Fish-Game/issues"
+  },
+  "homepage": "https://github.com/JakeFauvel/Fish-Game#readme"
+}
