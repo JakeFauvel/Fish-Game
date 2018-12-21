@@ -25,7 +25,7 @@ function preload()
     game.load.image('bg1_small', './assets/bg1_small.png');
     game.load.image('start_game', './assets/start_game.png');
     Player.preload(game);
-    Fish.preload(game);
+    Fish.preload(game, screenWidth, screenHeight);
 }
 
 function create()
@@ -34,15 +34,17 @@ function create()
     // Background / UI
     let backgroundLayer = game.add.group();
     backgroundLayer.create(0, 0, 'bg1_small');
+    // Fish
+    let fishLayer = game.add.group();
+    Fish.create(fishLayer);
+    // Start Game Button
     startGameBtn = game.add.button(500, 225, 'start_game');
-    scoreText = game.add.text(20, 10, 'SCORE ' + score, { font: "32px Scratch", fill: "#2BF6F7"});
     startGameBtn.onInputUp.add(startGame, startGameBtn, true);
-
     // Player
     let playerLayer = game.add.group();
-    let fishLayer = game.add.group();
     Player.create(playerLayer);
-    Fish.create(fishLayer);
+    // Score
+    scoreText = game.add.text(20, 10, 'SCORE ' + score, { font: "32px Scratch", fill: "#2BF6F7"});
 }
 
 function update()
@@ -52,7 +54,6 @@ function update()
     } else {
         showItem(scoreText);
         Player.show();
-        Fish.show();
         Player.update(game);
     }
 }

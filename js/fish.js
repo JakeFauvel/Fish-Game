@@ -1,41 +1,45 @@
 const FISH_WIDTH = 253;
 const FISH_HEIGHT = 85;
 
+let screenWidth = undefined;
+let screenHeight = undefined;
 let fishScale = 0.25;
+let numberOfFish = 25;
 let game = undefined;
-let layer = undefined;
 let fish = undefined;
+let fishes = undefined;
 
-let preload = function(inputGame) {
+let preload = function(inputGame, inputScreenWidth, inputScreenHeight) {
     game = inputGame;
+    screenWidth = inputScreenWidth;
+    screenHeight = inputScreenHeight;
     game.load.spritesheet('anchovy', './assets/anchovy_idle.png', FISH_WIDTH, FISH_HEIGHT, 20);
 };
 
 let create = function() {
-    layer = game.add.group();
-    fish = layer.create(centerFishX(), centerFishY(), 'anchovy');
-    game.physics.enable(fish, Phaser.Physics.ARCADE);
-    fish.alpha = 0;
-    fish.animations.add('idle');
-    fish.scale.setTo(fishScale, fishScale);
-    fish.anchor.setTo(0.5);
-    fish.animations.play('idle', 15, true);
+    fishes = game.add.group();
+    game.physics.enable(fishes, Phaser.Physics.ARCADE);
+    createFishes();
 };
 
-function centerFishX() {
-    return game.world.centerX - (FISH_WIDTH * fishScale) / 2;
+function createFishes() {
+    for (let i = 0; i < numberOfFish; i++) {
+        fish = fishes.create(getRandomX(), getRandomY(), 'anchovy');
+        fish.scale.setTo(fishScale, fishScale);
+        fish.animations.add('idle');
+        fish.animations.play('idle', 15, true);
+    }
 }
 
-function centerFishY() {
-    return game.world.centerY - (FISH_HEIGHT * fishScale) / 2;
+function getRandomX() {
+    return Math.floor(Math.random() * Math.floor(screenWidth));
 }
 
-function show() {
-    game.add.tween(fish).to( { alpha: 1 }, 1000, "Linear", true);
+function getRandomY() {
+    return Math.floor(Math.random() * Math.floor(screenHeight));
 }
 
 module.exports = {
     preload: preload,
     create: create,
-    show: show
 };
