@@ -7,6 +7,7 @@ window.Phaser = require('phaser/build/custom/phaser-split');
 let GameState = require("./gameState.js");
 let Player = require("./player.js");
 let Fish = require("./fish.js");
+let EatingMechanic = require("./eatingMechanic");
 
 // Game Config
 const screenWidth = 1250;
@@ -30,6 +31,7 @@ function preload()
 
 function create()
 {
+    game.physics.startSystem(Phaser.Physics.P2JS);
     // Create Assets
     // Background / UI
     let backgroundLayer = game.add.group();
@@ -44,18 +46,23 @@ function create()
     let playerLayer = game.add.group();
     Player.create(playerLayer);
     // Score
-    scoreText = game.add.text(20, 10, 'SCORE ' + score, { font: "32px Scratch", fill: "#2BF6F7"});
+    scoreText = game.add.text(20, 10, 'SCORE ' + score, { font: "32px Scratch", fill: "#2BF6F7"});game.physics.startSystem(Phaser.Physics.P2JS);
 }
 
 function update()
 {
     if (!GameState.hasGameStarted()) {
         scoreText.alpha = 0;
+        Fish.update(game);
     } else {
         showItem(scoreText);
         Player.show();
         Player.update(game);
         Fish.update(game);
+        let eatenFish = EatingMechanic.didPlayerEatFish(Player.getPlayerFish(), Fish.getFishes());
+        if (eatenFish) {
+            Fish.eatFish(eatenFish);
+        }
     }
 }
 

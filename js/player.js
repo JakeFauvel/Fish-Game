@@ -31,9 +31,9 @@ let update = function() {
 function playerMovement() {
     let movement = game.physics.arcade.moveToPointer(player, 400);
     if (getDirection(movement) === 'W') {
-        player.scale.setTo(playerScale, playerScale);
+        player.scale.x = playerScale;
     } else {
-        player.scale.setTo(-playerScale, playerScale);
+        player.scale.x = -playerScale;
     }
     checkForMouseContact();
 }
@@ -52,6 +52,10 @@ function checkForMouseContact() {
     if (Phaser.Rectangle.contains(player.body, game.input.x, game.input.y)) {
         player.body.velocity.setTo(0, 0);
     }
+}
+
+function getPlayerFish() {
+    return player;
 }
 
 function centerPlayerX() {
@@ -80,5 +84,6 @@ module.exports = {
     update: update,
     getPlayerX: getPlayerX,
     getPlayerY: getPlayerY,
-    show: show
+    show: show,
+    getPlayerFish: getPlayerFish
 };
