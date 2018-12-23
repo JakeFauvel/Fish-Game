@@ -16,7 +16,7 @@ const screenHeight = 600;
 // Game Objects
 let startGameBtn = undefined;
 let scoreText = undefined;
-let score = '0';
+let score = 0;
 
 let game = new Phaser.Game(screenWidth, screenHeight, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update });
 
@@ -31,6 +31,7 @@ function preload()
 
 function create()
 {
+    // Start Physics
     game.physics.startSystem(Phaser.Physics.P2JS);
     // Create Assets
     // Background / UI
@@ -46,7 +47,7 @@ function create()
     let playerLayer = game.add.group();
     Player.create(playerLayer);
     // Score
-    scoreText = game.add.text(20, 10, 'SCORE ' + score, { font: "32px Scratch", fill: "#2BF6F7"});game.physics.startSystem(Phaser.Physics.P2JS);
+    scoreText = game.add.text(20, 10, 'SCORE ' + score, { font: "32px Scratch", fill: "#2BF6F7"});
 }
 
 function update()
@@ -62,6 +63,8 @@ function update()
         let eatenFish = EatingMechanic.didPlayerEatFish(Player.getPlayerFish(), Fish.getFishes());
         if (eatenFish) {
             Fish.eatFish(eatenFish);
+            score = score + 10;
+            scoreText.setText('SCORE ' + score);
         }
     }
 }
