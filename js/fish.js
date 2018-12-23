@@ -48,17 +48,19 @@ function fishMovement() {
     let rightEdge = 1285;
     let topEdge = -35;
     let bottomEdge = 635;
-    fishes.children.forEach((fish, index) => {
+    fishes.children.forEach((fish) => {
         let travellingLeft = fish.body.velocity.x < 0;
         let travellingRight = !travellingLeft;
         let travellingUp = fish.body.velocity.y < 0;
         let travellingDown = !travellingUp;
         if (fish.body.x < leftEdge && travellingLeft) {
             fish.body.velocity.x = -fish.body.velocity.x;
+            fish.body.velocity.y = -getRandomDirection() * 10;
             flipFishGraphic(fish);
         }
         if (fish.body.x > rightEdge && travellingRight) {
             fish.body.velocity.x = -fish.body.velocity.x;
+            fish.body.velocity.y = -getRandomDirection() * 10;
             flipFishGraphic(fish);
         }
         if (fish.body.y < topEdge && travellingUp) {

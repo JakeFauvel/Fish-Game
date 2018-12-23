@@ -7,6 +7,7 @@ window.Phaser = require('phaser/build/custom/phaser-split');
 let GameState = require("./gameState.js");
 let Player = require("./player.js");
 let Fish = require("./fish.js");
+let EnemyFish = require("./enemyFish");
 let EatingMechanic = require("./eatingMechanic");
 
 // Game Config
@@ -27,6 +28,7 @@ function preload()
     game.load.image('start_game', './assets/start_game.png');
     Player.preload(game);
     Fish.preload(game, screenWidth, screenHeight);
+    EnemyFish.preload(game, screenWidth, screenHeight);
 }
 
 function create()
@@ -46,6 +48,9 @@ function create()
     // Player
     let playerLayer = game.add.group();
     Player.create(playerLayer);
+    // Enemy Fish
+    let enemyFishLayer = game.add.group();
+    EnemyFish.create(enemyFishLayer);
     // Score
     scoreText = game.add.text(20, 10, 'SCORE ' + score, { font: "32px Scratch", fill: "#2BF6F7"});
 }
@@ -55,11 +60,13 @@ function update()
     if (!GameState.hasGameStarted()) {
         scoreText.alpha = 0;
         Fish.update(game);
+        EnemyFish.update(game);
     } else {
         showItem(scoreText);
         Player.show();
         Player.update(game);
         Fish.update(game);
+        EnemyFish.update(game);
         let eatenFish = EatingMechanic.didPlayerEatFish(Player.getPlayerFish(), Fish.getFishes());
         if (eatenFish) {
             Fish.eatFish(eatenFish);
