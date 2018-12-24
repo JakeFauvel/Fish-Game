@@ -57,7 +57,7 @@ function create()
 
 function update()
 {
-    if (!GameState.hasGameStarted()) {
+    if (!GameState.hasGameStarted() || GameState.isGameOver()) {
         scoreText.alpha = 0;
         Fish.update(game);
         EnemyFish.update(game);
@@ -68,10 +68,15 @@ function update()
         Fish.update(game);
         EnemyFish.update(game);
         let eatenFish = EatingMechanic.didPlayerEatFish(Player.getPlayerFish(), Fish.getFishes());
+        let eatenPlayer = EatingMechanic.didFishEatPlayer(EnemyFish.getEnemies(), Player.getPlayerFish());
         if (eatenFish) {
             Fish.eatFish(eatenFish);
             score = score + 10;
             scoreText.setText('SCORE ' + score);
+        }
+        if (eatenPlayer) {
+            EnemyFish.eatPlayer(eatenPlayer);
+            GameState.endGame();
         }
     }
 }

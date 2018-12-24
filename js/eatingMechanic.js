@@ -1,7 +1,7 @@
 function didPlayerEatFish(playerFish, npcFishes) {
     let eatenFish = undefined;
 
-    npcFishes.forEach((fish, index) => {
+    npcFishes.forEach((fish) => {
         let distanceToFish = Phaser.Math.distance(playerFish.x, playerFish.y, fish.x, fish.y);
         if (distanceToFish < 50) {
             eatenFish = fish;
@@ -11,8 +11,17 @@ function didPlayerEatFish(playerFish, npcFishes) {
     return eatenFish;
 }
 
-function didFishEatPlayer() {
-    return false;
+function didFishEatPlayer(enemyFishes, playerFish) {
+    let eatenPlayer = undefined;
+
+    enemyFishes.forEach((enemy) => {
+        let distanceToPlayer = Phaser.Math.distance(playerFish.x, playerFish.y, enemy.x, enemy.y);
+        if (distanceToPlayer < 50) {
+            eatenPlayer = playerFish;
+        }
+    });
+
+    return eatenPlayer;
 }
 
 module.exports = {

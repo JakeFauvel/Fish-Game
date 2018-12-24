@@ -72,6 +72,10 @@ function enemyMovement() {
     });
 }
 
+function eatPlayer(player) {
+    player.destroy();
+}
+
 function getRandomDirection() {
     if (Math.random() > 0.5) {
         return 1;
@@ -107,5 +111,7 @@ function getRandomY() {
 module.exports = {
     preload: preload,
     create: create,
-    update: update
+    update: update,
+    getEnemies: getEnemies,
+    eatPlayer: eatPlayer
 };
