@@ -3,6 +3,10 @@ window.PIXI = require('phaser/build/custom/pixi');
 window.p2 = require('phaser/build/custom/p2');
 window.Phaser = require('phaser/build/custom/phaser-split');
 
+// Game Config
+const screenWidth = 1250;
+const screenHeight = 600;
+
 // Custom JS imports
 let GameState = require("./gameState.js");
 let Player = require("./player.js");
@@ -10,9 +14,9 @@ let Fish = require("./fish.js");
 let EnemyFish = require("./enemyFish");
 let EatingMechanic = require("./eatingMechanic");
 
-// Game Config
-const screenWidth = 1250;
-const screenHeight = 600;
+// Player
+let player = undefined;
+let playerLayer = undefined;
 
 // Game Objects
 let startGameBtn = undefined;
@@ -46,10 +50,14 @@ function create()
     Fish.create(fishLayer);
     // Start Game Button
     startGameBtn = game.add.button(500, 225, 'start_game');
-    startGameBtn.onInputUp.add(startGame, startGameBtn, true);
+    startGameBtn.onInputUp.add(startGame);
+    // Game Over
+    gameOverBtn = game.add.button(500, 225, 'game_over');
+    gameOverBtn.visible = false;
+    gameOverBtn.onInputUp.add(restartGame);
     // Player
-    let playerLayer = game.add.group();
-    Player.create(playerLayer);
+    playerLayer = game.add.group();
+    player = createPlayer();
     // Enemy Fish
     let enemyFishLayer = game.add.group();
     EnemyFish.create(enemyFishLayer);
@@ -59,17 +67,7 @@ function create()
 
 function update()
 {
-    if (!GameState.hasGameStarted() || GameState.isGameOver()) {
-        Fish.update(game);
-        EnemyFish.update(game);
-        if (GameState.isGameOver()) {
-            gameOverBtn = game.add.button(500, 225, 'game_over');
-            gameOverBtn = gameOverBtn.onInputUp.add(restartGame, gameOverBtn, true);
-        } else {
-            scoreText.alpha = 0;
-        }
-    } else {
-        score = 0;
+    if (GameState.hasGameStarted() && !GameState.isGameOver()) {
         showItem(scoreText);
         Player.show();
         Player.update(game);
@@ -86,31 +84,36 @@ function update()
             EnemyFish.eatPlayer(eatenPlayer);
             GameState.endGame();
         }
+    } else {
+        Fish.update(game);
+        EnemyFish.update(game);
     }
+
+    // Game Over
+    (GameState.isGameOver()) ? gameOverBtn.visible = true : gameOverBtn.visible = false;
 }
 
-function startGame(startGameBtn) {
+function startGame() {
     GameState.startGame();
     hideItem(startGameBtn);
+    createPlayer();
 }
 
-function restartGame(gameOverBtn) {
+function createPlayer() {
+    Player.create(playerLayer);
+}
+
+function restartGame() {
+    score = 0;
+    scoreText.setText('SCORE ' + score);
     GameState.restartGame();
-    destroyItem(gameOverBtn);
-    create();
+    showItem(startGameBtn);
 }
 
 function showItem(item) {
-    game.add.tween(item).to( { alpha: 1 }, 1000, "Linear", true);
+    game.add.tween(item).to( { alpha: 1, visible: true }, 500, "Linear", true);
 }
 
 function hideItem(item) {
-    let tween = game.add.tween(item).to( { alpha: 0 }, 1000, "Linear", true);
-    tween.onComplete.add(function() {
-        item.visible = false;
-    });
-}
-
-function destroyItem(item) {
-    item.destroy();
+    game.add.tween(item).to( { alpha: 0, visible: false }, 500, "Linear", true);
 }
