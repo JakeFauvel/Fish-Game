@@ -85,7 +85,8 @@ function update()
             Fish.eatFish(eatenFish);
             score = score + 10;
             scoreText.setText('SCORE ' + score);
-            // Fish.spawnFish();
+            console.log(Fish.getFishes());
+            Fish.spawnFish(true);
         }
         if (eatenPlayer) {
             EnemyFish.eatPlayer(eatenPlayer);

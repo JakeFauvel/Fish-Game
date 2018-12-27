@@ -29,20 +29,28 @@ let update = function() {
 
 function createFishes() {
     for (let i = 0; i < numberOfFish; i++) {
-        fish = fishes.create(getRandomX(), getRandomY(), getRandomFish());
-        fish.scale.setTo(fishScale, fishScale);
-        fish.animations.add('idle');
-        fish.animations.play('idle', 15, true);
-        game.physics.p2.enable(fish);
-        fish.body.fixedRotation = true;
-        fish.body.velocity.x = getRandomDirection() * 100;
-        fish.body.velocity.y = getRandomDirection() * 10;
-        if (isMovingRight(fish)) {
-            flipFishGraphic(fish);
-        }
-        fish.body.data.shapes[0].sensor = true;
-        fish.body.setZeroDamping();
+        spawnFish(false);
     }
+}
+
+function spawnFish(spawnOffscreen) {
+    if (spawnOffscreen) {
+        fish = fishes.create(getOffScreenX(), getOffScreenY(), getRandomFish());
+    } else {
+        fish = fishes.create(getRandomX(), getRandomY(), getRandomFish());
+    }
+    fish.scale.setTo(fishScale, fishScale);
+    fish.animations.add('idle');
+    fish.animations.play('idle', 15, true);
+    game.physics.p2.enable(fish);
+    fish.body.fixedRotation = true;
+    fish.body.velocity.x = getRandomDirection() * 100;
+    fish.body.velocity.y = getRandomDirection() * 10;
+    if (isMovingRight(fish)) {
+        flipFishGraphic(fish);
+    }
+    fish.body.data.shapes[0].sensor = true;
+    fish.body.setZeroDamping();
 }
 
 function fishMovement() {
@@ -106,6 +114,18 @@ function getRandomFish() {
     return fishesArray[Math.floor(Math.random() * fishesArray.length)];;
 }
 
+function getOffScreenX() {
+    if (Math.random() > 0.5) {
+        return Math.floor(Math.random() * 1285) + 1250;
+    } else {
+        return Math.floor(Math.random() * -600);
+    }
+}
+
+function getOffScreenY() {
+    return Math.floor(Math.random() * 600);
+}
+
 function getRandomX() {
     return Math.floor(Math.random() * Math.floor(screenWidth));
 }
@@ -119,5 +139,6 @@ module.exports = {
     create: create,
     update: update,
     getFishes: getFishes,
-    eatFish: eatFish
+    eatFish: eatFish,
+    spawnFish: spawnFish
 };
