@@ -19,6 +19,7 @@ let player = undefined;
 let playerLayer = undefined;
 
 // Game Objects
+let backgroundMusic = undefined;
 let startGameBtn = undefined;
 let gameOverBtn = undefined;
 let scoreText = undefined;
@@ -29,9 +30,10 @@ let game = new Phaser.Game(screenWidth, screenHeight, Phaser.AUTO, 'phaser-examp
 function preload()
 {
     // Load Assets
-    game.load.image('bg1_small', './assets/bg1_small.png');
+    game.load.image('background', './assets/background.png');
     game.load.image('start_game', './assets/start_game.png');
     game.load.image('game_over', './assets/game_over.png');
+    game.load.audio('background_music', './assets/background_music.mp3');
     Player.preload(game);
     Fish.preload(game, screenWidth, screenHeight);
     EnemyFish.preload(game, screenWidth, screenHeight);
@@ -44,7 +46,11 @@ function create()
     // Create Assets
     // Background / UI
     let backgroundLayer = game.add.group();
-    backgroundLayer.create(0, 0, 'bg1_small');
+    backgroundLayer.create(0, 0, 'background');
+    // Music
+    backgroundMusic = game.add.audio('background_music');
+    backgroundMusic.loop = true;
+    backgroundMusic.volume = 1;
     // Fish
     let fishLayer = game.add.group();
     Fish.create(fishLayer);
@@ -79,6 +85,7 @@ function update()
             Fish.eatFish(eatenFish);
             score = score + 10;
             scoreText.setText('SCORE ' + score);
+            // Fish.spawnFish();
         }
         if (eatenPlayer) {
             EnemyFish.eatPlayer(eatenPlayer);
@@ -97,6 +104,7 @@ function startGame() {
     GameState.startGame();
     hideItem(startGameBtn);
     createPlayer();
+    backgroundMusic.fadeIn();
 }
 
 function createPlayer() {
@@ -106,6 +114,7 @@ function createPlayer() {
 function restartGame() {
     score = 0;
     scoreText.setText('SCORE ' + score);
+    backgroundMusic.fadeOut();
     GameState.restartGame();
     showItem(startGameBtn);
 }

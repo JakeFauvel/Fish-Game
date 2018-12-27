@@ -1,19 +1,23 @@
-const ENEMY_WIDTH = 608;
-const ENEMY_HEIGHT = 372;
-
 let screenWidth = undefined;
 let screenHeight = undefined;
 let enemyFishScale = 0.25;
-let numberOfEnemyFish = 3;
+let numberOfEnemyFish = 5;
 let game = undefined;
 let enemy = undefined;
 let enemies = undefined;
+let enemiesArray = [
+    'dark_shark',
+    'light_shark',
+    'sword_fish'
+];
 
 let preload = function(inputGame, inputScreenWidth, inputScreenHeight) {
     game = inputGame;
     screenWidth = inputScreenWidth;
     screenHeight = inputScreenHeight;
-    game.load.spritesheet('shark', './assets/dark_blue_shark_idle.png', ENEMY_WIDTH, ENEMY_HEIGHT, 20);
+    game.load.spritesheet('dark_shark', './assets/dark_blue_shark_idle.png', 608, 372, 20);
+    game.load.spritesheet('light_shark', './assets/light_blue_shark_idle.png', 608, 372, 20);
+    game.load.spritesheet('sword_fish', './assets/sword_fish_idle.png', 1033, 416, 16);
 };
 
 let create = function() {
@@ -27,7 +31,7 @@ let update = function() {
 
 function createEnemies() {
     for (let i = 0; i < numberOfEnemyFish; i++) {
-        enemy = enemies.create(getRandomX(), getRandomY(), 'shark');
+        enemy = enemies.create(getRandomX(), getRandomY(), getRandomEnemy());
         enemy.scale.setTo(enemyFishScale, enemyFishScale);
         enemy.animations.add('idle');
         enemy.animations.play('idle', 15, true);
@@ -90,6 +94,10 @@ function getEnemies() {
 
 function flipEnemyFishGraphic(enemy) {
     enemy.scale.x = -enemy.scale.x;
+}
+
+function getRandomEnemy() {
+    return enemiesArray[Math.floor(Math.random() * enemiesArray.length)];;
 }
 
 function isMovingLeft(enemy) {

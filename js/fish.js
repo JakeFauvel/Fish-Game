@@ -1,6 +1,3 @@
-const FISH_WIDTH = 253;
-const FISH_HEIGHT = 85;
-
 let screenWidth = undefined;
 let screenHeight = undefined;
 let fishScale = 0.25;
@@ -8,12 +5,17 @@ let numberOfFish = 50;
 let game = undefined;
 let fish = undefined;
 let fishes = undefined;
+let fishesArray = [
+    'anchovy',
+    'cartoon_green'
+];
 
 let preload = function(inputGame, inputScreenWidth, inputScreenHeight) {
     game = inputGame;
     screenWidth = inputScreenWidth;
     screenHeight = inputScreenHeight;
-    game.load.spritesheet('anchovy', './assets/anchovy_idle.png', FISH_WIDTH, FISH_HEIGHT, 20);
+    game.load.spritesheet('anchovy', './assets/anchovy_idle.png', 253, 85, 20);
+    game.load.spritesheet('cartoon_green', './assets/cartoon_fish_green_idle.png', 240, 183, 20);
 };
 
 let create = function() {
@@ -27,7 +29,7 @@ let update = function() {
 
 function createFishes() {
     for (let i = 0; i < numberOfFish; i++) {
-        fish = fishes.create(getRandomX(), getRandomY(), 'anchovy');
+        fish = fishes.create(getRandomX(), getRandomY(), getRandomFish());
         fish.scale.setTo(fishScale, fishScale);
         fish.animations.add('idle');
         fish.animations.play('idle', 15, true);
@@ -98,6 +100,10 @@ function isMovingLeft(fish) {
 
 function isMovingRight(fish) {
     return !isMovingLeft(fish);
+}
+
+function getRandomFish() {
+    return fishesArray[Math.floor(Math.random() * fishesArray.length)];;
 }
 
 function getRandomX() {
