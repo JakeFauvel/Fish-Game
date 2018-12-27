@@ -16,6 +16,7 @@ const screenHeight = 600;
 
 // Game Objects
 let startGameBtn = undefined;
+let gameOverBtn = undefined;
 let scoreText = undefined;
 let score = 0;
 
@@ -26,6 +27,7 @@ function preload()
     // Load Assets
     game.load.image('bg1_small', './assets/bg1_small.png');
     game.load.image('start_game', './assets/start_game.png');
+    game.load.image('game_over', './assets/game_over.png');
     Player.preload(game);
     Fish.preload(game, screenWidth, screenHeight);
     EnemyFish.preload(game, screenWidth, screenHeight);
@@ -58,10 +60,16 @@ function create()
 function update()
 {
     if (!GameState.hasGameStarted() || GameState.isGameOver()) {
-        scoreText.alpha = 0;
         Fish.update(game);
         EnemyFish.update(game);
+        if (GameState.isGameOver()) {
+            gameOverBtn = game.add.button(500, 225, 'game_over');
+            gameOverBtn = gameOverBtn.onInputUp.add(restartGame, gameOverBtn, true);
+        } else {
+            scoreText.alpha = 0;
+        }
     } else {
+        score = 0;
         showItem(scoreText);
         Player.show();
         Player.update(game);
@@ -86,6 +94,12 @@ function startGame(startGameBtn) {
     hideItem(startGameBtn);
 }
 
+function restartGame(gameOverBtn) {
+    GameState.restartGame();
+    destroyItem(gameOverBtn);
+    create();
+}
+
 function showItem(item) {
     game.add.tween(item).to( { alpha: 1 }, 1000, "Linear", true);
 }
@@ -95,4 +109,8 @@ function hideItem(item) {
     tween.onComplete.add(function() {
         item.visible = false;
     });
+}
+
+function destroyItem(item) {
+    item.destroy();
 }

@@ -9,6 +9,11 @@ function endGame() {
     gameOver = true;
 }
 
+function restartGame() {
+    gameStarted = false;
+    gameOver = false;
+}
+
 function hasGameStarted() {
     return gameStarted;
 }
@@ -21,5 +26,6 @@ module.exports = {
     startGame: startGame,
     hasGameStarted: hasGameStarted,
     endGame: endGame,
-    isGameOver: isGameOver
+    isGameOver: isGameOver,
+    restartGame: restartGame
 };
