@@ -131,5 +131,5 @@ function showItem(item) {
 }
 
 function hideItem(item) {
-    game.add.tween(item).to( { alpha: 0, visible: false }, 500, "Linear", true);
+    game.add.tween(item).to({alpha: 0, visible: false}, 500, "Linear", true);
 }

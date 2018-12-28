@@ -15,9 +15,9 @@ let preload = function(inputGame, inputScreenWidth, inputScreenHeight) {
     game = inputGame;
     screenWidth = inputScreenWidth;
     screenHeight = inputScreenHeight;
-    game.load.spritesheet('dark_shark', './assets/dark_blue_shark_idle.png', 608, 372, 20);
-    game.load.spritesheet('light_shark', './assets/light_blue_shark_idle.png', 608, 372, 20);
-    game.load.spritesheet('sword_fish', './assets/sword_fish_idle.png', 1033, 416, 16);
+    game.load.spritesheet('dark_shark', './assets/dark_shark.png', 608, 372, 12);
+    game.load.spritesheet('light_shark', './assets/light_shark.png', 608, 372, 12);
+    game.load.spritesheet('sword_fish', './assets/sword_fish.png', 1033, 416, 16);
 };
 
 let create = function() {

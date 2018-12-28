@@ -1,25 +1,33 @@
 let screenWidth = undefined;
 let screenHeight = undefined;
-let fishScale = 0.25;
+let fishScale = 0.3;
 let numberOfFish = 50;
 let game = undefined;
 let fish = undefined;
 let fishes = undefined;
 let fishesArray = [
-    'anchovy',
+    'anchovy_silver',
     'anchovy_red',
+    'anchovy_pink',
     'cartoon_green',
-    'cartoon_yellow'
+    'cartoon_orange',
+    'cartoon_yellow',
+    'cartoon_purple',
+    'squid',
 ];
 
 let preload = function(inputGame, inputScreenWidth, inputScreenHeight) {
     game = inputGame;
     screenWidth = inputScreenWidth;
     screenHeight = inputScreenHeight;
-    game.load.spritesheet('anchovy', './assets/anchovy_idle.png', 253, 85, 20);
-    game.load.spritesheet('anchovy_red', './assets/red_anchovy_idle.png', 251, 84, 20);
-    game.load.spritesheet('cartoon_green', './assets/cartoon_fish_green_idle.png', 240, 183, 20);
-    game.load.spritesheet('cartoon_yellow', './assets/cartoon_fish_yellow_idle.png', 304, 275, 20);
+    game.load.spritesheet('anchovy_silver', './assets/silver_anchovy.png', 251, 84, 20);
+    game.load.spritesheet('anchovy_red', './assets/red_anchovy.png', 251, 84, 20);
+    game.load.spritesheet('anchovy_pink', './assets/pink_anchovy.png', 251, 84, 20);
+    game.load.spritesheet('cartoon_green', './assets/cartoon_green.png', 240, 183, 12);
+    game.load.spritesheet('cartoon_orange', './assets/cartoon_orange.png', 180, 80, 12);
+    game.load.spritesheet('cartoon_yellow', './assets/cartoon_yellow.png', 304, 275, 12);
+    game.load.spritesheet('cartoon_purple', './assets/cartoon_purple.png', 249, 163, 12);
+    game.load.spritesheet('squid', './assets/squid.png', 253, 62, 6);
 };
 
 let create = function() {
@@ -45,7 +53,7 @@ function spawnFish(spawnOffscreen) {
     }
     fish.scale.setTo(fishScale, fishScale);
     fish.animations.add('idle');
-    fish.animations.play('idle', 15, true);
+    fish.animations.play('idle', 6, true);
     game.physics.p2.enable(fish);
     fish.body.fixedRotation = true;
     fish.body.velocity.x = getRandomDirection() * 100;

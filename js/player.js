@@ -10,7 +10,7 @@ let directions = ["W", "NW", "N", "NE", "E", "SE", "S", "SW"];
 
 let preload = function(inputGame) {
     game = inputGame;
-    game.load.spritesheet('player', './assets/red_angler_idle.png', PLAYER_WIDTH, PLAYER_HEIGHT, 19);
+    game.load.spritesheet('player', './assets/red_angler.png', PLAYER_WIDTH, PLAYER_HEIGHT, 19);
 };
 
 let create = function() {
