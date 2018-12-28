@@ -122,6 +122,11 @@ function update()
         }
         if (eatenPlayer) {
             chomp.play();
+            let eatenImage = game.add.image(eatenPlayer.x, eatenPlayer.y, getRandomEatenImage());
+            eatenImage.scale.setTo(0.25, 0.25);
+            game.time.events.add(250, function() {
+                hideItem(eatenImage, 100);
+            });
             EnemyFish.eatPlayer(eatenPlayer);
             GameState.endGame();
         }
