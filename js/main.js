@@ -20,6 +20,7 @@ let playerLayer = undefined;
 
 // Game Objects
 let backgroundMusic = undefined;
+let chomp = undefined;
 let startGameBtn = undefined;
 let gameOverBtn = undefined;
 let scoreText = undefined;
@@ -34,6 +35,7 @@ function preload()
     game.load.image('start_game', './assets/start_game.png');
     game.load.image('game_over', './assets/game_over.png');
     game.load.audio('background_music', './assets/background_music.mp3');
+    game.load.audio('chomp', './assets/chomp.mp3');
     Player.preload(game);
     Fish.preload(game, screenWidth, screenHeight);
     EnemyFish.preload(game, screenWidth, screenHeight);
@@ -50,7 +52,10 @@ function create()
     // Music
     backgroundMusic = game.add.audio('background_music');
     backgroundMusic.loop = true;
-    backgroundMusic.volume = 1;
+    backgroundMusic.volume = 0.1;
+    // Chomp
+    chomp = game.add.audio('chomp');
+    chomp.volume = 2;
     // Fish
     let fishLayer = game.add.group();
     Fish.create(fishLayer);
@@ -82,13 +87,14 @@ function update()
         let eatenFish = EatingMechanic.didPlayerEatFish(Player.getPlayerFish(), Fish.getFishes());
         let eatenPlayer = EatingMechanic.didFishEatPlayer(EnemyFish.getEnemies(), Player.getPlayerFish());
         if (eatenFish) {
+            chomp.play();
             Fish.eatFish(eatenFish);
             score = score + 10;
             scoreText.setText('SCORE ' + score);
-            console.log(Fish.getFishes());
             Fish.spawnFish(true);
         }
         if (eatenPlayer) {
+            chomp.play();
             EnemyFish.eatPlayer(eatenPlayer);
             GameState.endGame();
         }

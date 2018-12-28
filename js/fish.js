@@ -7,7 +7,9 @@ let fish = undefined;
 let fishes = undefined;
 let fishesArray = [
     'anchovy',
-    'cartoon_green'
+    'anchovy_red',
+    'cartoon_green',
+    'cartoon_yellow'
 ];
 
 let preload = function(inputGame, inputScreenWidth, inputScreenHeight) {
@@ -15,7 +17,9 @@ let preload = function(inputGame, inputScreenWidth, inputScreenHeight) {
     screenWidth = inputScreenWidth;
     screenHeight = inputScreenHeight;
     game.load.spritesheet('anchovy', './assets/anchovy_idle.png', 253, 85, 20);
+    game.load.spritesheet('anchovy_red', './assets/red_anchovy_idle.png', 251, 84, 20);
     game.load.spritesheet('cartoon_green', './assets/cartoon_fish_green_idle.png', 240, 183, 20);
+    game.load.spritesheet('cartoon_yellow', './assets/cartoon_fish_yellow_idle.png', 304, 275, 20);
 };
 
 let create = function() {
