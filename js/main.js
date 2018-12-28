@@ -6,6 +6,9 @@ window.Phaser = require('phaser/build/custom/phaser-split');
 // Game Config
 const screenWidth = 1250;
 const screenHeight = 600;
+const iconScale = 0.05;
+const soundIconX = 1175;
+const soundIconY = 5;
 
 // Custom JS imports
 let GameState = require("./gameState.js");
@@ -19,6 +22,8 @@ let player = undefined;
 let playerLayer = undefined;
 
 // Game Objects
+let soundOnIconBtn = undefined;
+let soundOffIconBtn = undefined;
 let backgroundMusic = undefined;
 let chomp = undefined;
 let startGameBtn = undefined;
@@ -39,6 +44,8 @@ function preload()
     game.load.image('background', './assets/background.png');
     game.load.image('start_game', './assets/start_game.png');
     game.load.image('game_over', './assets/game_over.png');
+    game.load.image('sound_on', './assets/sound_on.png');
+    game.load.image('sound_off', './assets/sound_off.png');
     game.load.image('chomp', './assets/chomp.png');
     game.load.image('nom', './assets/nom.png');
     game.load.image('yum', './assets/yum.png');
@@ -58,6 +65,13 @@ function create()
     let backgroundLayer = game.add.group();
     backgroundLayer.create(0, 0, 'background');
     // Music
+    soundOnIconBtn = game.add.button(soundIconX, soundIconY,'sound_on');
+    soundOffIconBtn = game.add.button(soundIconX, soundIconY,'sound_off');
+    soundOnIconBtn.onInputUp.add(soundIconClick);
+    soundOffIconBtn.onInputUp.add(soundIconClick);
+    soundOnIconBtn.scale.setTo(iconScale, iconScale);
+    soundOffIconBtn.scale.setTo(iconScale, iconScale);
+    soundOffIconBtn.visible = false;
     backgroundMusic = game.add.audio('background_music');
     backgroundMusic.loop = true;
     backgroundMusic.volume = 0.1;
@@ -99,7 +113,7 @@ function update()
             let eatenImage = game.add.image(eatenFish.x, eatenFish.y, getRandomEatenImage());
             eatenImage.scale.setTo(0.25, 0.25);
             game.time.events.add(250, function() {
-                eatenImage.destroy();
+                hideItem(eatenImage, 100);
             });
             Fish.eatFish(eatenFish);
             score = score + 10;
@@ -127,6 +141,18 @@ function startGame() {
     backgroundMusic.fadeIn();
 }
 
+function soundIconClick() {
+    if (backgroundMusic.isPlaying) {
+        backgroundMusic.pause();
+        soundOffIconBtn.visible = true;
+        soundOnIconBtn.visible = false;
+    } else {
+        backgroundMusic.play();
+        soundOnIconBtn.visible = true;
+        soundOffIconBtn.visible = false;
+    }
+}
+
 function createPlayer() {
     Player.create(playerLayer);
 }
@@ -147,6 +173,6 @@ function showItem(item) {
     game.add.tween(item).to( { alpha: 1, visible: true }, 500, "Linear", true);
 }
 
-function hideItem(item) {
-    game.add.tween(item).to({alpha: 0, visible: false}, 500, "Linear", true);
+function hideItem(item, duration = 500) {
+    game.add.tween(item).to({alpha: 0, visible: false}, duration, "Linear", true);
 }
