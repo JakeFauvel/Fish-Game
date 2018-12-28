@@ -25,6 +25,11 @@ let startGameBtn = undefined;
 let gameOverBtn = undefined;
 let scoreText = undefined;
 let score = 0;
+let eatenImages = [
+    'chomp',
+    'nom',
+    'yum'
+];
 
 let game = new Phaser.Game(screenWidth, screenHeight, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update });
 
@@ -34,6 +39,9 @@ function preload()
     game.load.image('background', './assets/background.png');
     game.load.image('start_game', './assets/start_game.png');
     game.load.image('game_over', './assets/game_over.png');
+    game.load.image('chomp', './assets/chomp.png');
+    game.load.image('nom', './assets/nom.png');
+    game.load.image('yum', './assets/yum.png');
     game.load.audio('background_music', './assets/background_music.mp3');
     game.load.audio('chomp', './assets/chomp.mp3');
     Player.preload(game);
@@ -88,6 +96,11 @@ function update()
         let eatenPlayer = EatingMechanic.didFishEatPlayer(EnemyFish.getEnemies(), Player.getPlayerFish());
         if (eatenFish) {
             chomp.play();
+            let eatenImage = game.add.image(eatenFish.x, eatenFish.y, getRandomEatenImage());
+            eatenImage.scale.setTo(0.25, 0.25);
+            game.time.events.add(250, function() {
+                eatenImage.destroy();
+            });
             Fish.eatFish(eatenFish);
             score = score + 10;
             scoreText.setText('SCORE ' + score);
@@ -124,6 +137,10 @@ function restartGame() {
     backgroundMusic.fadeOut();
     GameState.restartGame();
     showItem(startGameBtn);
+}
+
+function getRandomEatenImage() {
+    return eatenImages[Math.floor(Math.random() * eatenImages.length)];
 }
 
 function showItem(item) {
