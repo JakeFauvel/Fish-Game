@@ -9,6 +9,13 @@ const screenHeight = 600;
 const iconScale = 0.05;
 const soundIconX = 1175;
 const soundIconY = 5;
+// Highscore
+const highScore = localStorage.getItem('highScore');
+let scoreText = undefined;
+let score = 0;
+if (!highScore) {
+    localStorage.setItem('highScore', score)
+}
 
 // Custom JS imports
 let GameState = require("./gameState.js");
@@ -26,10 +33,9 @@ let soundOnIconBtn = undefined;
 let soundOffIconBtn = undefined;
 let backgroundMusic = undefined;
 let chomp = undefined;
+let highScoreSound = undefined;
 let startGameBtn = undefined;
 let gameOverBtn = undefined;
-let scoreText = undefined;
-let score = 0;
 let eatenImages = [
     'chomp',
     'nom',
@@ -51,6 +57,7 @@ function preload()
     game.load.image('yum', './assets/yum.png');
     game.load.audio('background_music', './assets/background_music.mp3');
     game.load.audio('chomp', './assets/chomp.mp3');
+    game.load.audio('highscore', './assets/highscore.wav');
     Player.preload(game);
     Fish.preload(game, screenWidth, screenHeight);
     EnemyFish.preload(game, screenWidth, screenHeight);
@@ -78,6 +85,9 @@ function create()
     // Chomp
     chomp = game.add.audio('chomp');
     chomp.volume = 2;
+    // Highscore Sound
+    highScoreSound = game.add.audio('highscore');
+    highScoreSound.volume = 4;
     // Fish
     let fishLayer = game.add.group();
     Fish.create(fishLayer);
@@ -95,7 +105,7 @@ function create()
     let enemyFishLayer = game.add.group();
     EnemyFish.create(enemyFishLayer);
     // Score
-    scoreText = game.add.text(20, 10, 'SCORE ' + score, { font: "32px Scratch", fill: "#2BF6F7"});
+    scoreText = game.add.text(20, 10, 'SCORE: ' + score, { font: "45px Scratch", fill: "#2BF6F7"});
 }
 
 function update()
@@ -117,7 +127,7 @@ function update()
             });
             Fish.eatFish(eatenFish);
             score = score + 10;
-            scoreText.setText('SCORE ' + score);
+            scoreText.setText('SCORE: ' + score);
             Fish.spawnFish(true);
         }
         if (eatenPlayer) {
@@ -136,7 +146,13 @@ function update()
     }
 
     // Game Over
-    (GameState.isGameOver()) ? gameOverBtn.visible = true : gameOverBtn.visible = false;
+    if (GameState.isGameOver()) {
+        hideItem(scoreText);
+        gameOverBtn.visible = true;
+        checkForNewHighScore();
+    } else {
+        gameOverBtn.visible = false;
+    }
 }
 
 function startGame() {
@@ -164,6 +180,7 @@ function createPlayer() {
 
 function restartGame() {
     score = 0;
+    showItem(scoreText);
     scoreText.setText('SCORE ' + score);
     backgroundMusic.fadeOut();
     GameState.restartGame();
@@ -180,4 +197,22 @@ function showItem(item) {
 
 function hideItem(item, duration = 500) {
     game.add.tween(item).to({alpha: 0, visible: false}, duration, "Linear", true);
+}
+
+function checkForNewHighScore() {
+    if (score > localStorage['highScore']) {
+        localStorage['highScore'] = score;
+        showNewHighScore();
+    } else {
+        showHighScore();
+    }
+}
+
+function showNewHighScore() {
+    highScoreSound.play();
+    scoreText = game.add.text(20, 10, 'HIGHSCORE: ' + localStorage['highScore'], { font: "45px Scratch", fill: "#2BF6F7"});
+}
+
+function showHighScore() {
+    scoreText = game.add.text(20, 10, 'HIGHSCORE: ' + localStorage['highScore'], { font: "45px Scratch", fill: "#2BF6F7"});
 }
