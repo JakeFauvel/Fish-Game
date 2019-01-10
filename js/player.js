@@ -29,23 +29,13 @@ let update = function() {
 };
 
 function playerMovement() {
-    let movement = game.physics.arcade.moveToPointer(player, 400);
-    if (getDirection(movement) === 'W') {
+    game.physics.arcade.moveToPointer(player, 400);
+    if (isMovingLeft()) {
         player.scale.x = playerScale;
     } else {
         player.scale.x = -playerScale;
     }
     checkForMouseContact();
-}
-
-function getDirection(angle, allowDiagonal) {
-    if (allowDiagonal) {
-        angle = Math.round((angle + Math.PI) / (Math.PI * 2) * 8) % 8;
-        return (directions[angle]);
-    } else {
-        angle = Math.round((angle + Math.PI) / (Math.PI * 2) * 4) % 4;
-        return (directions[angle * 2]);
-    }
 }
 
 function checkForMouseContact() {
@@ -56,6 +46,10 @@ function checkForMouseContact() {
 
 function getPlayerFish() {
     return player;
+}
+
+function isMovingLeft() {
+    return player.body.velocity.x < 0;
 }
 
 function centerPlayerX() {

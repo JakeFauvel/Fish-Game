@@ -123,7 +123,7 @@ function isMovingRight(fish) {
 }
 
 function getRandomFish() {
-    return fishesArray[Math.floor(Math.random() * fishesArray.length)];;
+    return fishesArray[Math.floor(Math.random() * fishesArray.length)];
 }
 
 function getOffScreenX() {
