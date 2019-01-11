@@ -6,8 +6,6 @@ let game = undefined;
 let layer = undefined;
 let player = undefined;
 
-let directions = ["W", "NW", "N", "NE", "E", "SE", "S", "SW"];
-
 let preload = function(inputGame) {
     game = inputGame;
     game.load.spritesheet('player', './assets/red_angler.png', PLAYER_WIDTH, PLAYER_HEIGHT, 19);
