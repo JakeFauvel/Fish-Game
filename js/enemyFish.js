@@ -1,14 +1,15 @@
 let screenWidth = undefined;
 let screenHeight = undefined;
 let enemyFishScale = 0.25;
-let numberOfEnemyFish = 5;
+let numberOfEnemyFish = 7;
 let game = undefined;
 let enemy = undefined;
 let enemies = undefined;
 let enemiesArray = [
     'dark_shark',
     'light_shark',
-    'sword_fish'
+    'sword_fish',
+    'diver'
 ];
 
 let preload = function(inputGame, inputScreenWidth, inputScreenHeight) {
@@ -18,6 +19,7 @@ let preload = function(inputGame, inputScreenWidth, inputScreenHeight) {
     game.load.spritesheet('dark_shark', './assets/dark_shark.png', 608, 372, 12);
     game.load.spritesheet('light_shark', './assets/light_shark.png', 608, 372, 12);
     game.load.spritesheet('sword_fish', './assets/sword_fish.png', 1033, 416, 16);
+    game.load.spritesheet('diver', './assets/diver.png', 1238, 679, 16);
 };
 
 let create = function() {
