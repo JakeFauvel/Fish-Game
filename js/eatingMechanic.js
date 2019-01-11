@@ -16,7 +16,7 @@ function didFishEatPlayer(enemyFishes, playerFish) {
 
     enemyFishes.forEach((enemy) => {
         let distanceToPlayer = Phaser.Math.distance(playerFish.x, playerFish.y, enemy.x, enemy.y);
-        if (distanceToPlayer < 50) {
+        if (distanceToPlayer < 65) {
             eatenPlayer = playerFish;
         }
     });
